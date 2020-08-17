@@ -1,9 +1,9 @@
-name: lint
+name: build
 
 on: [push, pull_request]
 
 jobs:
-  mypy:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,27 +16,24 @@ jobs:
 
       - uses: Trim21/install-poetry-project@dist/v1
 
-      - name: mypy
-        run: mypy project
+      - run: pip install wheel twine
+      - run: poetry build
+      - run: twine check dist/*
 
-  lint:
+  wheel:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: 3.7
 
       - uses: Trim21/setup-poetry@dist/v1
 
       - uses: Trim21/install-poetry-project@dist/v1
-
-      - uses: actions/cache@v2
         with:
-          path: ~/.cache/pre-commit
-          key: precommit-2-${{ env.PY }}-${{ hashFiles('.pre-commit-config.yaml') }}
-          restore-keys: precommit-2-${{ env.PY }}-
+          extras: docs
 
-      - name: pre-commit
-        run: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
+      - name: build docs
+        run: make -C docs html
