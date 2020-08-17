@@ -3,9 +3,7 @@
     "config:base"
   ],
   "prHourlyLimit": 0,
-  "assignees": [
-    "@Trim21"
-  ],
+  "dependencyDashboard": true,
   "timezone": "Asia/Shanghai",
   "semanticCommits": true,
   "labels": [
@@ -65,8 +63,7 @@
       "depTypeList": [
         "dev-dependencies"
       ],
-      "semanticCommitScope": "dev",
-      "rangeStrategy": "pin"
+      "semanticCommitScope": "dev"
     }
   ]
 }
