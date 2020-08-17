@@ -1,0 +1,72 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "prHourlyLimit": 0,
+  "assignees": [
+    "@Trim21"
+  ],
+  "timezone": "Asia/Shanghai",
+  "semanticCommits": true,
+  "labels": [
+    "dependencies"
+  ],
+  "separateMajorMinor": true,
+  "separateMinorPatch": false,
+  "poetry": {
+    "enabled": true
+  },
+  "pip_setup": {
+    "enabled": false
+  },
+  "pip_requirements": {
+    "enabled": false
+  },
+  "pipenv": {
+    "enabled": false
+  },
+  "rangeStrategy": "widen",
+  "packageRules": [
+    {
+      "managers": [
+        "poetry"
+      ],
+      "semanticCommitType": "chore",
+      "groupName": "deps",
+      "depTypeList": [
+        "dependencies"
+      ],
+      "excludePackagePatterns": [
+        "^sphinx"
+      ],
+      "semanticCommitScope": "deps"
+    },
+    {
+      "managers": [
+        "poetry"
+      ],
+      "groupName": "deps-docs",
+      "semanticCommitType": "build",
+      "semanticCommitScope": "docs",
+      "depTypeList": [
+        "dependencies"
+      ],
+      "rangeStrategy": "pin",
+      "packagePatterns": [
+        "^sphinx"
+      ]
+    },
+    {
+      "managers": [
+        "poetry"
+      ],
+      "semanticCommitType": "chore",
+      "groupName": "deps-dev",
+      "depTypeList": [
+        "dev-dependencies"
+      ],
+      "semanticCommitScope": "dev",
+      "rangeStrategy": "pin"
+    }
+  ]
+}

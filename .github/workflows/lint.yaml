@@ -1,0 +1,46 @@
+name: lint
+
+on: [push, pull_request]
+
+jobs:
+  mypy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - uses: Trim21/setup-poetry@dist/v1
+
+      - uses: Trim21/install-poetry-project@dist/v1
+        with:
+          extras: docs
+
+      - name: mypy
+        run: mypy project
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+
+      - uses: Trim21/setup-poetry@dist/v1
+
+      - uses: Trim21/install-poetry-project@dist/v1
+        with:
+          extras: docs
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pre-commit
+          key: precommit-2-${{ env.PY }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: precommit-2-${{ env.PY }}-
+
+      - name: pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure && pre-commit gc
